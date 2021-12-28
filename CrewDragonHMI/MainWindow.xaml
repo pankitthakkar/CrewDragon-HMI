@@ -1,0 +1,185 @@
+﻿<Window x:Class="CrewDragonHMI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:my="clr-namespace:CrewDragonHMI"
+        xmlns:local="clr-namespace:CrewDragonHMI"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="800"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <my:ValueAngleConverter x:Key="valueAngleConverter"/>
+        <my:ValueTextConverter x:Key="valueTextConverter"/>
+    </Window.Resources>
+    <Grid Background="#FFE8E8E8">
+        <TextBox Name="hullTextLabel" 
+                 HorizontalAlignment="Left" 
+                 VerticalAlignment="Top" 
+                 Margin="78,136,0,0" 
+                 Text="HULL INTEGRITY" 
+                 TextWrapping="Wrap" 
+                 Background="{x:Null}" BorderBrush="{x:Null}" FontWeight="Normal" FontSize="20" FontFamily="Bahnschrift SemiBold SemiCondensed" TextAlignment="Left" IsReadOnly="True" IsInactiveSelectionHighlightEnabled="True" AllowDrop="False" Focusable="False" IsHitTestVisible="False" IsTabStop="False" Height="23" Width="134" SelectionTextBrush="Black"/>
+        <TextBox Name="hullText"
+                 HorizontalAlignment="Left"
+                 Margin="78,175,0,0"
+                 Text="100%"
+                 TextWrapping="Wrap"
+                 VerticalAlignment="Top"
+                 Width="134"
+                 Background="{x:Null}" BorderBrush="{x:Null}" FontWeight="Normal" FontSize="65" FontFamily="Bahnschrift SemiBold SemiCondensed" TextAlignment="Center" IsReadOnly="True" IsInactiveSelectionHighlightEnabled="True" AllowDrop="False" Focusable="False" IsHitTestVisible="False" IsTabStop="False"/>
+        <TextBox Name="rotationText" 
+                 HorizontalAlignment="Left" 
+                 VerticalAlignment="Top"
+                 Margin="50,326,0,0" 
+                 Text="DIRECTION: 0°" 
+                 TextWrapping="Wrap"
+                 Width="300" Height="44" Background="{x:Null}" BorderBrush="{x:Null}" FontWeight="Normal" FontSize="32" FontFamily="Bahnschrift SemiBold SemiCondensed" TextAlignment="Left" IsReadOnly="True" IsInactiveSelectionHighlightEnabled="True" AllowDrop="False" Focusable="False" IsHitTestVisible="False" IsTabStop="False"/>
+        <TextBox Name="speedText" 
+                 HorizontalAlignment="Left" 
+                 VerticalAlignment="Top"
+                 Margin="520,330,0,0" 
+                 Text="SPEED: 0 KM/S" 
+                 TextWrapping="Wrap" 
+                 Width="270" Height="36"  Background="{x:Null}" BorderBrush="{x:Null}" FontWeight="Normal" FontSize="32" FontFamily="Bahnschrift SemiBold SemiCondensed" TextAlignment="Left" IsReadOnly="True" IsInactiveSelectionHighlightEnabled="True" AllowDrop="False" Focusable="False" IsHitTestVisible="False" IsTabStop="False"/>
+        <Slider Name="speedSlider"
+                Orientation="Vertical"
+                HorizontalAlignment="Left" 
+                Margin="634,379,0,0" 
+                VerticalAlignment="Top"
+                Height="150"
+                TickPlacement="Both"
+                Maximum="1000"
+                TickFrequency="100"
+                Foreground="Black"
+                Thumb.DragCompleted="SpeedSlider_DragCompleted"/>
+        <TextBox Name="batteryText" 
+                 HorizontalAlignment="Left" 
+                 VerticalAlignment="Top"
+                 Margin="256,83,0,0" 
+                 Width="128" 
+                 Text="BATTERY: 100%" 
+                 TextWrapping="Wrap"
+                 Background="{x:Null}" BorderBrush="{x:Null}" FontWeight="Normal" FontSize="20" FontFamily="Bahnschrift SemiBold SemiCondensed" TextAlignment="Center" IsReadOnly="True" IsInactiveSelectionHighlightEnabled="True" AllowDrop="False" Focusable="False" IsHitTestVisible="False" IsTabStop="False"/>
+
+        <Grid Width="78" Height="204" Margin="0,0,160,145" Background="Black">
+            <ProgressBar Name="battery"
+                Value="50"
+                Orientation="Vertical"
+                Width="76"
+                Height="202"
+                Background="White" BorderBrush="White"/>
+        </Grid>
+        <TextBox Name="fuelText" 
+                 HorizontalAlignment="Left" 
+                 VerticalAlignment="Top"
+                 Margin="432,83,0,0" 
+                 Width="96"
+                 Text="FUEL: 100%" 
+                 TextWrapping="Wrap"
+                 Background="{x:Null}" BorderBrush="{x:Null}" FontWeight="Normal" FontSize="20" FontFamily="Bahnschrift SemiBold SemiCondensed" TextAlignment="Center" IsReadOnly="True" IsInactiveSelectionHighlightEnabled="True" AllowDrop="False" Focusable="False" IsHitTestVisible="False" IsTabStop="False"/>
+        <Grid Width="78" Height="204" Margin="160,0,0,145" Background="Black">
+            <ProgressBar Name="fuel"
+                 Value="50"
+                 Orientation="Vertical"
+                 Width="76"
+                 Height="202" BorderBrush="White" Background="White">
+            </ProgressBar>
+        </Grid>
+        <ToggleButton Name="alarm"
+                      Height="40"
+                      Width="500"
+                      Margin="0,24,0,0"
+                      VerticalAlignment="Top"
+                      Checked="alarm_Checked"
+                      Unchecked="alarm_Unchecked">
+            <ToggleButton.Style>
+                <Style TargetType="ToggleButton">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ToggleButton">
+                                <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                                Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center"                  
+                                              VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ToggleButton.Style>
+            <Label Name="alarmText" Content="" 
+               FontFamily="Bahnschrift SemiBold SemiCondensed" IsHitTestVisible="False" FontSize="16"  Foreground="Black"
+               
+               Height="25" Width="172"
+               
+               />
+        </ToggleButton>
+
+        <Label Name="shieldsText"
+               HorizontalAlignment="Left" 
+               VerticalAlignment="Top" 
+               Margin="235,369,0,0"
+               Width="170"
+               Content="DEFLECTOR SHIELDS"
+               HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold SemiCondensed" FontSize="16" IsHitTestVisible="False"/>
+        <Label Name="generatorText"
+               HorizontalAlignment="Left" 
+               VerticalAlignment="Top" 
+               Margin="408,369,0,0"
+               Width="144"
+               Content="GENERATOR"
+               HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold SemiCondensed" FontSize="16" IsHitTestVisible="False"/>
+        <CheckBox Name="shields" HorizontalAlignment="Left" Margin="270,404,0,0" VerticalAlignment="Top" Height="100" Width="100" Checked="shields_Checked" Unchecked="shields_Unchecked"/>
+        <CheckBox Name="generator" HorizontalAlignment="Left" Margin="430,404,0,0" VerticalAlignment="Top" Height="100" Width="100" Checked="generator_Checked" Unchecked="generator_Unchecked"/>
+        <CheckBox Name="warpDrive" HorizontalAlignment="Left" Margin="599,165,0,0" VerticalAlignment="Top" Height="100" Width="100" Checked="warpDrive_Checked" Unchecked="warpDrive_Unchecked"/>
+        <TextBox HorizontalAlignment="Left" Margin="594,134,0,0" Text="WARP DRIVE" TextWrapping="Wrap" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold SemiCondensed" FontSize="20" IsHitTestVisible="False" Background="{x:Null}" BorderBrush="{x:Null}"/>
+
+        <Grid Height="150" Width="150" Margin="70,360,564,36">
+            <Slider Name="knob">
+                <Slider.Template>
+                    <ControlTemplate>
+                        <Viewbox>
+                            <Canvas Width="300" Height="300" Margin="0">
+                                <Ellipse Fill="#FF2E2E2E" Width="300" Height="300" Canvas.Left="0" Canvas.Top="0" 
+                                    Stroke="#FF8B8A8A" StrokeThickness="10"
+                                    MouseLeftButtonUp="Ellipse_MouseLeftButtonUp"
+                                    MouseMove="Ellipse_MouseMove"/>
+                                <Canvas>
+                                    <Ellipse Name="littleKnob" Fill="White" Width="50" Height="50" Canvas.Left="130" Canvas.Top="18"
+                                        MouseLeftButtonDown="Ellipse_MouseLeftButtonDown"
+                                        MouseLeftButtonUp="Ellipse_MouseLeftButtonUp" IsEnabled="True">
+                                        <Ellipse.ToolTip>
+                                            <ToolTip>
+                                                <Binding RelativeSource="{RelativeSource TemplatedParent}"
+                                                    Path="Value" Converter="{StaticResource valueTextConverter}"/>
+                                            </ToolTip>
+                                        </Ellipse.ToolTip>
+                                    </Ellipse>
+                                    <Canvas.RenderTransform>
+                                        <RotateTransform CenterX="150" CenterY="150">
+                                            <RotateTransform.Angle>
+                                                <MultiBinding Converter="{StaticResource valueAngleConverter}">
+                                                    <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value"/>
+                                                    <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Minimum"/>
+                                                    <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Maximum"/>
+                                                </MultiBinding>
+                                            </RotateTransform.Angle>
+                                        </RotateTransform>
+                                    </Canvas.RenderTransform>
+                                </Canvas>
+                            </Canvas>
+                        </Viewbox>
+                    </ControlTemplate>
+                </Slider.Template>
+            </Slider>
+        </Grid>
+        <Button Name="toggleAlarmButton" HorizontalAlignment="Left" Margin="700,23,0,0" VerticalAlignment="Top" Visibility="Visible" Click="toggleAlarmButton_Click" Grid.Column="1">
+            <TextBox Name="toggleAlarmText" HorizontalAlignment="Left" Text="MASK ALARM" Width="70" TextWrapping="Wrap" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold SemiCondensed" FontSize="15" IsHitTestVisible="False" Background="{x:Null}" BorderBrush="{x:Null}" />
+        </Button>
+        <Label x:Name="evacuateText" HorizontalAlignment="Center" Height="550" Margin="0,0,0,0" VerticalAlignment="Center" Width="750" Background="DarkRed" Foreground="White"
+               FontSize="72" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Visibility="Hidden" FontFamily="Bahnschrift SemiBold SemiCondensed">
+            <AccessText TextWrapping="Wrap" Text="HULL INTEGRITY COMPROMISED. &#xA;&#xA; EVACUATE NOW." TextAlignment="Center"/>
+        </Label>
+    </Grid>
+</Window>
